@@ -58,7 +58,7 @@ before_build:
   - echo "开始构建..."
 ##执行自定义的build脚本
 build_script:
-  - go build ./...
+  - go build src/github.com/zzlwd/Wechat-Official-Account-test
 ##构建完成后执行的脚本
 after_build:
   - echo "执行完成，请检查"
