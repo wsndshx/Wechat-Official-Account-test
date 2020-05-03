@@ -1,10 +1,78 @@
+#---------#
+# 常规配置 #
+#---------#
+
+##版本格式
 version: 0.0.{build}
-build: off
-deploy: off
+
+#---------#
+# 环境配置 #
+#---------#
+##编译的平台
+matrix:
+  fast_finish: true
+  allow_failures:
+    - platform: x86
+      configuration: Release
+    - platform: x64
+      configuration: Release
+##构建工作所使用的镜像
 image: Ubuntu
+##克隆代码前执行的命令
+init:
+  - git config --global core.autocrlf input
+##克隆目录
 clone_folder: /usr/go/src/github.com/$username/$project
+##设置克隆深度(如果不定义则克隆仓库的全部历史)
+clone_depth: 5
+
 environment:
   GOPATH: /usr/go/
+
+#设置运行环境
 stack: go 1.14
+
+##关闭自动发布
+deploy: off
+##克隆储存库后运行的脚本
+##默认情况下所有行都为批处理(-echo)
+##作为PowerShell命令运行: -ps:
+##从cmd运行批处理命令: -cmd:
+install:
+  - echo "喵~"
+
+#-----------#
+#-Build配置-#
+#-----------#
+
+##Build平台.
+##Any CPU: 所有cpu
+platform:
+  - x86
+  - x64
+##Buile配置
+configuration: Release
+
+##执行Build前运行的脚本
+before_build:
+  - echo "开始构建..."
+##执行自定义的build脚本
 build_script:
-  go build ./...
+  - go build ./...
+##构建完成后执行的脚本
+after_build:
+  - echo "执行完成，请检查"
+##禁用自动构建
+build: off
+
+#----------#
+#-test配置-#
+#----------#
+##自定义测试脚本
+test_script:
+  -
+#执行完测试脚本后执行的脚本
+after_test:
+  -
+#关闭自动测试
+test: off
