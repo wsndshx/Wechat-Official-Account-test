@@ -22,7 +22,7 @@ image: Ubuntu
 init:
   - git config --global core.autocrlf input
 ##克隆目录
-clone_folder: /usr/go/src/github.com/$username/$project
+clone_folder: /usr/go/src/github.com/zzlwd/Wechat-Official-Account-test
 ##设置克隆深度(如果不定义则克隆仓库的全部历史)
 clone_depth: 5
 
