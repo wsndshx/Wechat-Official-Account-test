@@ -56,9 +56,10 @@ configuration: Release
 ##执行Build前运行的脚本
 before_build:
   - echo "开始构建..."
+  - chmod u+x build.sh
 ##执行自定义的build脚本
 build_script:
-  - go build src/github.com/zzlwd/Wechat-Official-Account-test
+  - ./build.sh
 ##构建完成后执行的脚本
 after_build:
   - echo "执行完成，请检查"
