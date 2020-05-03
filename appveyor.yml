@@ -1,9 +1,8 @@
-version: 1.0.{build}
-platform:
-- x86
-- x64
-- ARM
+version: 0.0.{build}
+
 build: off
+
+image: Ubuntu
 
 clone_folder: /usr/go/src/github.com/$username/$project
 
@@ -11,9 +10,3 @@ environment:
   GOPATH: /usr/go/
 
 stack: go 1.14
-
-before_test:
-  - go vet ./...
-
-test_script:
-  - go test ./...
