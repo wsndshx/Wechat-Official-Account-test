@@ -1,12 +1,10 @@
 version: 0.0.{build}
-
 build: off
-
+deploy: off
 image: Ubuntu
-
 clone_folder: /usr/go/src/github.com/$username/$project
-
 environment:
   GOPATH: /usr/go/
-
 stack: go 1.14
+build_script:
+  go build ./...
