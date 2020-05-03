@@ -40,6 +40,7 @@ deploy: off
 ##从cmd运行批处理命令: -cmd:
 install:
   - dir
+  - sudo chmod u+x build.sh
 
 #-----------#
 #-Build配置-#
@@ -54,8 +55,7 @@ platform:
 configuration: Release
 
 ##执行Build前运行的脚本
-before_build:
-  - chmod u+x build.sh
+#before_build:
 ##执行自定义的build脚本
 build_script:
   - ./build.sh
