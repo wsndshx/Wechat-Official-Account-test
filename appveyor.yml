@@ -39,7 +39,7 @@ deploy: off
 ##作为PowerShell命令运行: -ps:
 ##从cmd运行批处理命令: -cmd:
 install:
-  - echo "喵~"
+  - dir
 
 #-----------#
 #-Build配置-#
@@ -55,7 +55,6 @@ configuration: Release
 
 ##执行Build前运行的脚本
 before_build:
-  - dir
   - chmod u+x build.sh
 ##执行自定义的build脚本
 build_script:
