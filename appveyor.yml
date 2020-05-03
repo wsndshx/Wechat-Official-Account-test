@@ -55,7 +55,7 @@ configuration: Release
 
 ##执行Build前运行的脚本
 before_build:
-  - echo "开始构建..."
+  - dir
   - chmod u+x build.sh
 ##执行自定义的build脚本
 build_script:
