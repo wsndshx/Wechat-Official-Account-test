@@ -27,7 +27,6 @@ func main() {
 	//解析配置文件
 	json.Unmarshal([]byte(fileData), &config)
 	dropErr(err)
-	fmt.Println(config.Port)
 	port = config.Port
 	token = config.Token
 	// 绑定路由
