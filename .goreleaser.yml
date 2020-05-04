@@ -1,10 +1,14 @@
 builds:
 - env:
   - CGO_ENABLED=0
-  goos:
-    - linux
-    - darwin
-    - windows
+goos:
+  - linux
+  - darwin
+  - windows
+goarch:
+  - amd64
+  - arm
+  - arm64
 checksum:
   name_template: 'checksums.txt'
 snapshot:
