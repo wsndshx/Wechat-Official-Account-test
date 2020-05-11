@@ -3,35 +3,22 @@ package main
 import (
 	"crypto/sha1"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"log"
 	"net/http"
 	"sort"
 )
-
-//配置文件
-type web struct {
-	Port  string
-	Token string
-}
 
 //全局变量
 var port, token string = "4521", "123456789"
 
 func main() {
-	config := web{}
-	//读取配置文件
-	fileData, err := ioutil.ReadFile("./config.json")
-	dropErr(err)
-	//解析配置文件
-	json.Unmarshal([]byte(fileData), &config)
-	dropErr(err)
+	config := ReadProfile()
 	port = config.Port
 	token = config.Token
 	// 绑定路由
 	http.HandleFunc("/", checkout)
-	fmt.Printf("在端口 %s 上启动服务器...", port)
+	fmt.Printf("在端口 %s 上启动服务器...\n", config.Port)
 	// 启动监听=j
 	err2 := http.ListenAndServe(":"+port, nil)
 	if err2 != nil {
@@ -39,19 +26,7 @@ func main() {
 	}
 }
 
-//错误处理
-func dropErr(e error) {
-	if e != nil {
-		panic(e)
-	}
-}
-
-//用于解析json文件
-func jsonmiao(filePath string, miao interface{}) {
-	//打开文件
-
-}
-
+//checkout 用于监听和处理绑定的接口上的数据
 func checkout(response http.ResponseWriter, request *http.Request) {
 	//解析URL参数
 	err := request.ParseForm()
@@ -83,5 +58,19 @@ func checkout(response http.ResponseWriter, request *http.Request) {
 		}
 	} else {
 		fmt.Println("验证失败")
+	}
+	if request.Method == "POST" {
+		text := parsingXMLtext(request)
+		if text != nil {
+			fmt.Printf("收到来自用户 %s 的消息：%s\n", text.FromUserName, text.Content)
+			//responseTextBody 回复用户的消息
+			responseTextBody, err := makeXMLtext(text.ToUserName, text.FromUserName, "喵, 吾乃FBK。我收到你的这个消息辣："+text.Content)
+			if err != nil {
+				log.Println("Wechat Service: makeXMLtext error: ", err)
+				return
+			}
+			response.Header().Set("Content-Type", "text/xml")
+			fmt.Fprintf(response, string(responseTextBody))
+		}
 	}
 }
