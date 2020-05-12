@@ -59,11 +59,17 @@ func checkout(response http.ResponseWriter, request *http.Request) {
 		fmt.Println("验证失败")
 	}
 	if request.Method == "POST" {
-		text := parsingXMLtext(request)
-		if text != nil {
-			fmt.Printf("收到来自用户 %s 的消息：%s\n", text.FromUserName, text.Content)
-			//replyXMLtext 回复用户的消息
-			replyXMLtext(text, response, "喵, 吾乃FBK。我收到你的这个消息辣："+text.Content)
+		message := parsingXMLbase(request)
+		if message != nil {
+			if message.MsgType == "text" {
+				fmt.Printf("[%s]", message.MsgType)
+				fmt.Printf("收到来自用户 %s 的消息：%s\n", message.FromUserName, message.Content)
+				//replyXMLtext 回复用户的消息
+				replyXMLtext(message, response, "喵, 吾乃FBK。我收到你的这个消息辣："+message.Content)
+			} else if message.MsgType == "image" {
+				fmt.Printf("[%s]", message.MsgType)
+				fmt.Printf("收到了一张图片，链接为：%s\n", message.PicUrl)
+			}
 		}
 	}
 }

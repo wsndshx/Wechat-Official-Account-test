@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 )
 
-//config 配置文件模板
-type config struct {
+//Config 配置文件模板
+type Config struct {
 	Port  string
 	Token string
 }
@@ -19,20 +19,20 @@ func dropErr(e error) {
 }
 
 //ReadProfilePath 读取配置文件 | FilePath为文件路径
-func ReadProfilePath(filePath string) *config {
+func ReadProfilePath(filePath string) *Config {
 	//读取配置文件
 	fileData, err := ioutil.ReadFile(filePath)
 	dropErr(err)
 	//解析配置文件
-	configg := &config{}
+	configg := &Config{}
 	json.Unmarshal([]byte(fileData), configg)
 	dropErr(err)
 	return configg
 }
 
 //ReadProfile 读取配置文件 | 默认路径为./config.json
-func ReadProfile() *config {
-	config := &config{}
+func ReadProfile() *Config {
+	config := &Config{}
 	//读取配置文件
 	fileData, err := ioutil.ReadFile("./config.json")
 	dropErr(err)
