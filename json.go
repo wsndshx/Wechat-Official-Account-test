@@ -24,10 +24,10 @@ func ReadProfilePath(filePath string) *config {
 	fileData, err := ioutil.ReadFile(filePath)
 	dropErr(err)
 	//解析配置文件
-	config := &config{}
-	json.Unmarshal([]byte(fileData), config)
+	configg := &config{}
+	json.Unmarshal([]byte(fileData), configg)
 	dropErr(err)
-	return config
+	return configg
 }
 
 //ReadProfile 读取配置文件 | 默认路径为./config.json

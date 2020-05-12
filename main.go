@@ -4,7 +4,6 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
-	"log"
 	"net/http"
 	"sort"
 )
@@ -63,14 +62,8 @@ func checkout(response http.ResponseWriter, request *http.Request) {
 		text := parsingXMLtext(request)
 		if text != nil {
 			fmt.Printf("收到来自用户 %s 的消息：%s\n", text.FromUserName, text.Content)
-			//responseTextBody 回复用户的消息
-			responseTextBody, err := makeXMLtext(text.ToUserName, text.FromUserName, "喵, 吾乃FBK。我收到你的这个消息辣："+text.Content)
-			if err != nil {
-				log.Println("Wechat Service: makeXMLtext error: ", err)
-				return
-			}
-			response.Header().Set("Content-Type", "text/xml")
-			fmt.Fprintf(response, string(responseTextBody))
+			//replyXMLtext 回复用户的消息
+			replyXMLtext(text, response, "喵, 吾乃FBK。我收到你的这个消息辣："+text.Content)
 		}
 	}
 }
