@@ -7,8 +7,15 @@ import (
 
 //Config 配置文件模板
 type Config struct {
-	Port  string
-	Token string
+	Port                                string
+	Token                               string
+	ForwardingOfMessagesToServiceCenter bool
+}
+
+//accessToken
+type accessToken struct {
+	AccessToken string `json:"access_token"`
+	ExpiresIn   int    `json:"expires_in"`
 }
 
 //dropErr 错误处理

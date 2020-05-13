@@ -10,11 +10,13 @@ import (
 
 //全局变量
 var port, token string = "4521", "123456789"
+var forwarding bool = false
 
 func main() {
 	config := ReadProfile()
 	port = config.Port
 	token = config.Token
+	forwarding = config.ForwardingOfMessagesToServiceCenter
 	// 绑定路由
 	http.HandleFunc("/", checkout)
 	fmt.Printf("在端口 %s 上启动服务器...\n", config.Port)
@@ -27,6 +29,27 @@ func main() {
 
 //checkout 用于监听和处理绑定的接口上的数据
 func checkout(response http.ResponseWriter, request *http.Request) {
+	check(response, request)
+	if request.Method == "POST" {
+		message := parsingXMLbase(request)
+		if message != nil {
+			if forwarding == true {
+				forwardMessage(message, response)
+			} else if message.MsgType == "text" {
+				fmt.Printf("[%s]", message.MsgType)
+				fmt.Printf("收到来自用户 %s 的消息：%s\n", message.FromUserName, message.Content)
+				//replyXMLtext 回复用户的消息
+				replyXMLtext(message, response, "喵, 吾乃FBK。我收到你的这个消息辣："+message.Content)
+			} else if message.MsgType == "image" {
+				fmt.Printf("[%s]", message.MsgType)
+				fmt.Printf("收到了一张图片，链接为：%s\n", message.PicURL)
+			}
+		}
+	}
+}
+
+//用于验证请求来源
+func check(response http.ResponseWriter, request *http.Request) {
 	//解析URL参数
 	err := request.ParseForm()
 	if err != nil {
@@ -57,19 +80,5 @@ func checkout(response http.ResponseWriter, request *http.Request) {
 		}
 	} else {
 		fmt.Println("验证失败")
-	}
-	if request.Method == "POST" {
-		message := parsingXMLbase(request)
-		if message != nil {
-			if message.MsgType == "text" {
-				fmt.Printf("[%s]", message.MsgType)
-				fmt.Printf("收到来自用户 %s 的消息：%s\n", message.FromUserName, message.Content)
-				//replyXMLtext 回复用户的消息
-				replyXMLtext(message, response, "喵, 吾乃FBK。我收到你的这个消息辣："+message.Content)
-			} else if message.MsgType == "image" {
-				fmt.Printf("[%s]", message.MsgType)
-				fmt.Printf("收到了一张图片，链接为：%s\n", message.PicUrl)
-			}
-		}
 	}
 }

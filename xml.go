@@ -17,9 +17,9 @@ type XMLbase struct {
 	CreateTime   time.Duration
 	MsgType      string
 	Content      string
-	PicUrl       string
+	PicURL       string
 	Mediald      string
-	MsgId        int64
+	MsgID        int64
 }
 
 //XMLtext 用户消息结构体(text)
@@ -52,9 +52,9 @@ type reXMLimage struct {
 	FromUserName CDATA
 	CreateTime   time.Duration
 	MsgType      CDATA
-	PicUrl       CDATA
+	PicURL       CDATA
 	Mediald      CDATA
-	MsgId        int64
+	MsgID        int64
 }
 
 //reXMLtext 用于回复消息的结构体(text)
@@ -65,7 +65,7 @@ type reXMLtext struct {
 	CreateTime   time.Duration
 	MsgType      CDATA
 	Content      CDATA
-	MsgId        int64
+	MsgID        int64
 }
 
 //CDATA 一个格式

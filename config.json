@@ -1,4 +1,5 @@
 {
     "port":"80",
-    "token":"miaojiji"
+    "token":"miaojiji",
+    "Forwarding_of_messages_to_service_center": true
 }
